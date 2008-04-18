@@ -1,4 +1,3 @@
-# $Id: PKGBUILD,v 1.32 2008/02/08 19:50:50 tpowa Exp $
 # Maintainer: judd <jvinet@zeroflux.org>
 pkgname=coreutils
 pkgver=6.10
