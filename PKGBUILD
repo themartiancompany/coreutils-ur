@@ -3,7 +3,7 @@
 
 pkgname=coreutils
 pkgver=7.1
-pkgrel=1
+pkgrel=1.1
 pkgdesc="The basic file, shell and text manipulation utilities of the GNU operating system"
 arch=(i686 x86_64)
 license=('GPL3')
