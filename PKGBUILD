@@ -3,7 +3,7 @@
 
 pkgname=coreutils
 pkgver=8.13
-pkgrel=1
+pkgrel=2
 pkgdesc="The basic file, shell and text manipulation utilities of the GNU operating system"
 arch=('i686' 'x86_64')
 license=('GPL3')
@@ -33,7 +33,7 @@ build() {
   patch -Np1 -i ${srcdir}/coreutils-uname.patch
 
   autoreconf -v
-  ./configure --prefix=/usr \
+  ./configure --prefix=/usr --libexecdir=/usr/lib/coreutils \
               --enable-install-program=su \
               --enable-no-install-program=groups,hostname,kill,uptime \
               --enable-pam
