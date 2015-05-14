@@ -41,7 +41,7 @@ build() {
 
 check() {
   cd $pkgname-$pkgver
-  RUN_VERY_EXPENSIVE_TESTS=yes make check
+  make check
 }
 
 package() {
