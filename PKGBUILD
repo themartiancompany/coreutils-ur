@@ -9,10 +9,10 @@ pkgrel=2
 pkgdesc='The basic file, shell and text manipulation utilities of the GNU operating system'
 arch=('i686' 'x86_64')
 license=('GPL3')
-url='http://www.gnu.org/software/coreutils'
+url='https://www.gnu.org/software/coreutils/'
 groups=('base')
 depends=('glibc' 'acl' 'attr' 'gmp' 'libcap' 'openssl')
-source=("ftp://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.xz"{,.sig})
 validpgpkeys=('6C37DC12121A5006BC1DB804DF6FD971306037D9') # Pádraig Brady
 md5sums=('070e43ba7f618d747414ef56ab248a48'
          'SKIP')
@@ -23,8 +23,8 @@ prepare() {
   local filename
   for filename in "${source[@]}"; do
     if [[ "$filename" =~ \.patch$ ]]; then
-      msg2 "Applying patch $filename"
-      patch -p1 -N -i "$srcdir/$filename"
+      msg2 "Applying patch ${filename##*/}"
+      patch -p1 -N -i "$srcdir/${filename##*/}"
     fi
   done
   :
