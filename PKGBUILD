@@ -6,10 +6,10 @@
 
 pkgname=coreutils
 pkgver=9.4
-pkgrel=1
+pkgrel=2
 pkgdesc='The basic file, shell and text manipulation utilities of the GNU operating system'
 arch=('x86_64')
-license=('GPL3-or-later' 'GFDL-1.3-or-later')
+license=('GPL-3.0-or-later' 'GFDL-1.3-or-later')
 url='https://www.gnu.org/software/coreutils/'
 depends=('glibc' 'acl' 'attr' 'gmp' 'libcap' 'openssl')
 source=("https://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.xz"{,.sig})
