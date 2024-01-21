@@ -88,6 +88,7 @@ build() {
     _configure_opts+=(
       # --enable-no-install-program=groups,hostname,kill,uptime
       # --enable-no-install-program=pinky,df,users,who,uptime
+      --enable-no-install-program=pinky,uptime
       ac_cv_func_getpass="yes"
       --disable-year2038
       --enable-single-binary=symlinks
