@@ -93,6 +93,14 @@ fi
 if [[ ! -v "_offline" ]]; then
   _offline="false"
 fi
+if [[ ! -v "_tag_name" ]]; then
+  _tag_name="commit"
+  if [[ "${_ns}" == "gnu" ]]; then
+    if [[ "${_git}" == "false" ]]; then
+       _tag_name="pkgver"
+    fi
+  fi
+fi
 if [[ ! -v "_git_service" ]]; then
   _git_service="github"
 fi
@@ -123,7 +131,7 @@ pkgname=(
 _commit="c01fd163a47468a8296fb369f5233853bb551bb6"
 _bundle_commit="b60a159fdc5bfcf9988d3a4cb6f53abe8ad5d35d"
 pkgver=9.11
-pkgrel=2
+pkgrel=1
 _pkgdesc=(
   'The basic file, shell and'
   'text manipulation utilities of the'
@@ -174,6 +182,8 @@ if [[ "${_os}" == "Msys" ]]; then
     "windows-default-manifest"
   )
 fi
+source=()
+sha256sums=()
 if [[ "${_tag_name}" == "pkgver" ]]; then
   _tag="${pkgver}"
 elif [[ "${_tag_name}" == "commit" ]]; then
@@ -181,10 +191,12 @@ elif [[ "${_tag_name}" == "commit" ]]; then
 fi
 _tarname="${_pkg}-${_tag}"
 _tarfile="${_tarname}.${_archive_format}"
-_gnu_sum=='ea613a4cf44612326e917201bbbcdfbd301de21ffc3b59b6e5c07e040b275e52'
-_gnu_sig_sum="SKIP"
+_gnu_sum="394024eda0a5955217ceda9cd1201e65dc8fa3aa29c2951135a49521d57c3cc3"
+_gnu_sig_sum="e2b9f147338cb22e41be28dcf76cd87c5197be359cc42033e66488a4a6b5c024"
 _bundle_sum="d549e382c34ad260b86ba63faa184fecfceb1074f6785a6a7375567ed24b4c49"
 _bundle_sig_sum="995e7daaaa7b58941c7fa65ac0ba5c6df13392954508577b5bc02d9be71ab5ff"
+_github_sum="119a5ec9cb0cf5a79c2db387c911b4faa310de84f236f1e254a3b473897d30cf"
+_github_sig_sum="973d6b494e33772fdb3432c867c20a204d813efa5afc2c79901c955d6ad66acf"
 if [[ ! -v "_http" ]]; then
   if [[ "${_ns}" == "gnu" ]]; then
     _http="https://ftp.gnu.org"
@@ -192,24 +204,111 @@ if [[ ! -v "_http" ]]; then
     _http="https://${_git_service}.com"
   fi
 fi
-_src="${_http}/${_ns}/${_pkg}/${_tarfile}"
-
-source=(
-  "${_src}"{"",".sig"}
+if [[ "${_evmfs}" == "true" ]]; then
+  if [[ "${_git}" == "true" ]]; then
+    _sum="${_bundle_sum}"
+    _sig_sum="${_bundle_sig_sum}"
+  elif [[ "${_git}" == "false" ]]; then
+    _sum="${_bundle_sum}"
+    _sig_sum="${_bundle_sig_sum}"
+  fi
+elif [[ "${_evmfs}" == "false" ]]; then
+  if [[ "${_git}" == "true" ]]; then
+    _sum="SKIP"
+    _sig_sum="SKIP"
+  elif [[ "${_git}" == "false" ]]; then
+    if [[ "${_git_service}" == "github" ]]; then
+      _sum="${_github_sum}"
+      _sig_sum="${_github_sig_sum}"
+      # _sum="SKIP"
+      # _sig_sum="SKIP"
+    fi
+  fi
+fi
+# Dvorak
+_evmfs_ns="0x87003Bd6C074C713783df04f36517451fF34CBEf"
+_evmfs_network="100"
+_evmfs_address="0x69470b18f8b8b5f92b48f6199dcb147b4be96571"
+_evmfs_dir="evmfs://${_evmfs_network}/${_evmfs_address}/${_evmfs_ns}"
+_evmfs_uri="${_evmfs_dir}/${_sum}"
+_evmfs_src="${_tarfile}::${_evmfs_uri}"
+_sig_uri="${_evmfs_dir}/${_sig_sum}"
+_sig_src="${_tarfile}.sig::${_sig_uri}"
+_url="${_http}/${_ns}/${_pkg}"
+if [[ "${_evmfs}" == "true" ]]; then
+  _src="${_evmfs_src}"
+  if [[ "${_git}" == "false" ]]; then
+    source+=(
+      "${_sig_src}"
+    )
+    sha256sums+=(
+      "${_sig_sum}"
+    )
+    _sum="${_github_sum}"
+  elif [[ "${_git}" == "true" ]]; then
+    source+=(
+      "${_sig_src}"
+    )
+    sha256sums+=(
+      "${_sig_sum}"
+    )
+    _sum="${_bundle_sum}"
+  fi
+elif [[ "${_evmfs}" == "false" ]]; then
+  if [[ "${_git}" == true ]]; then
+    _src="${_tarname}::git+${_url}#${_tag_name}=${_tag}?signed"
+    _sum="SKIP"
+  elif [[ "${_git}" == false ]]; then
+    _uri=""
+    if [[ "${_ns}" == "gnu" ]]; then
+      _uri="${_http}/${_ns}/${_pkg}/${_tarfile}"
+      _sum="${_gnu_sum}"
+      _sig_sum="SKIP"
+      source+=(
+        "${_tarfile}.sig::${_uri}.sig"
+      )
+      sha256sums+=(
+        "SKIP"
+      )
+    elif [[ "${_ns}" == "themartiancompany" ]]; then
+      if [[ "${_git_service}" == "github" ]]; then
+        if [[ "${_tag_name}" == "commit" ]]; then
+          _uri="${_url}/archive/${_commit}.${_archive_format}"
+          _sum="${_github_sum}"
+        fi
+      elif [[ "${_git_service}" == "gitlab" ]]; then
+        if [[ "${_tag_name}" == "commit" ]]; then
+          _uri="${_url}/-/archive/${_tag}/${_tag}.${_archive_format}"
+        fi
+      fi
+    fi
+    _src="${_tarfile}::${_uri}"
+  fi
+fi
+source+=(
+  "${_src}"
+)
+sha256sums+=(
+  "${_sum}"
 )
 validpgpkeys=(
    # Pádraig Brady
   '6C37DC12121A5006BC1DB804DF6FD971306037D9'
-)
-sha256sums=(
-  'SKIP'
+  # Truocolo
+  #   <truocolo@aol.com>
+  '97E989E6CF1D2C7F7A41FF9F95684DBE23D6A3E9'
+  #   <truocolo@0x6E5163fC4BFc1511Dbe06bB605cc14a3e462332b>
+  'F690CBC17BD1F53557290AF51FC17D540D0ADEED'
+  # Pellegrino Prevete (dvorak)
+  #   <dvorak@0x87003Bd6C074C713783df04f36517451fF34CBEf>
+  '12D8E3D7888F741E89F86EE0FEC8567A644F1D16'
 )
 
 prepare() {
   local \
     _src
   cd \
-    "${pkgname}-${pkgver}"
+    "${_tarname}"
   # apply patch from the source array 
   # (should be a pacman feature)
   local \
@@ -230,22 +329,23 @@ prepare() {
 build() {
   local \
     _cflags=()
-    _configure_opts=()
-  cd \
-    "${pkgname}-${pkgver}"
+    _configure_opts=() \
+    _os
+  _os="$(
+    uname \
+      -o)"
   _cflags=(
     -Wno-implicit-function-declaration 
     -Wno-error="implicit-function-declaration"
   )
-  _configure_opts=(
-    --prefix=/usr
-    --libexecdir=/usr/lib
+  _configure_opts+=(
+    --prefix="/usr"
+    --libexecdir="/usr/lib"
     --with-openssl
-    gl_cv_host_operating_system="$( \
-      uname \
-        -o)"
+    gl_cv_host_operating_system="${_os}"
   )
-  [[ "${CARCH}" == "arm" ]] && \
+  if [[ "${CARCH}" == "arm" || \
+        "${CARCH}" == "armv8l" ]]; then
     _configure_opts+=(
       # --enable-no-install-program=groups,hostname,kill,uptime
       # --enable-no-install-program=pinky,df,users,who,uptime
@@ -256,8 +356,11 @@ build() {
       --with-gmp
       --disable-xattr
     )
+  fi
   export \
     CFLAGS="${CFLAGS} ${_cflags[*]}"
+  cd \
+    "${_tarname}"
   ./configure \
     "${_configure_opts[@]}"
   make
@@ -265,14 +368,14 @@ build() {
 
 check() {
   cd \
-    "${pkgname}-${pkgver}"
+    "${_tarname}"
   make \
     check
 }
 
 package() {
   cd \
-    "${pkgname}-${pkgver}"
+    "${_tarname}"
   make \
     DESTDIR="${pkgdir}" \
     install
