@@ -131,7 +131,7 @@ pkgname=(
 _commit="c01fd163a47468a8296fb369f5233853bb551bb6"
 _bundle_commit="b60a159fdc5bfcf9988d3a4cb6f53abe8ad5d35d"
 pkgver=9.11
-pkgrel=2
+pkgrel=3
 _pkgdesc=(
   'The basic file, shell and'
   'text manipulation utilities of the'
