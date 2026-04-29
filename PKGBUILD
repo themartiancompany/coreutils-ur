@@ -164,6 +164,8 @@ depends=(
 )
 makedepends=(
   "make"
+  "autoconf"
+  "automake"
   "${_compiler}"
 )
 if [[ "${_git}" == "true" ]]; then
