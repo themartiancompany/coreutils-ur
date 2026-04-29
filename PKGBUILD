@@ -131,7 +131,7 @@ pkgname=(
 _commit="c01fd163a47468a8296fb369f5233853bb551bb6"
 _bundle_commit="b60a159fdc5bfcf9988d3a4cb6f53abe8ad5d35d"
 pkgver=9.11
-pkgrel=1
+pkgrel=2
 _pkgdesc=(
   'The basic file, shell and'
   'text manipulation utilities of the'
@@ -328,12 +328,13 @@ prepare() {
 
 build() {
   local \
-    _cflags=()
+    _cflags=() \
     _configure_opts=() \
     _os
   _os="$(
     uname \
       -o)"
+  # Android sure require patches
   _cflags=(
     -Wno-implicit-function-declaration 
     -Wno-error="implicit-function-declaration"
@@ -376,6 +377,7 @@ check() {
 package() {
   cd \
     "${_tarname}"
+  # Android sure require extra steps
   make \
     DESTDIR="${pkgdir}" \
     install
