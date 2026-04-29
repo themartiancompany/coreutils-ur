@@ -329,11 +329,15 @@ prepare() {
 build() {
   local \
     _cflags=() \
+    _autogen \
+    _configure \
     _configure_opts=() \
     _os
   _os="$(
     uname \
       -o)"
+  _autogen="${srcdir}/${_tarname}/autogen.sh"
+  _configure="${srcdir}/${_tarname}/configure.sh"
   # Android sure require patches
   _cflags=(
     -Wno-implicit-function-declaration 
@@ -362,7 +366,16 @@ build() {
     CFLAGS="${CFLAGS} ${_cflags[*]}"
   cd \
     "${_tarname}"
-  ./configure \
+  if [[ ! -e "${_configure}" ]]; then
+    if [[ -e "${_autogen}" ]]; then
+      "${_autogen}" \
+        "${_configure_opts[@]}"
+    else
+      autoreconf \
+        -i
+    fi
+  fi
+  "${_configure}" \
     "${_configure_opts[@]}"
   make
 }
