@@ -88,7 +88,7 @@ if [[ ! -v "_ns" ]]; then
   _ns="themartiancompany"
 fi
 if [[ ! -v "_git" ]]; then
-  _git="false"
+  _git="true"
 fi
 if [[ ! -v "_offline" ]]; then
   _offline="false"
@@ -129,9 +129,12 @@ pkgname=(
   "${pkgbase}"
 )
 _commit="c01fd163a47468a8296fb369f5233853bb551bb6"
+_gnulib_commit="fb7312fa8d3df29f0ca0678f669b9a5b88a078ec"
 _bundle_commit="b60a159fdc5bfcf9988d3a4cb6f53abe8ad5d35d"
+_gnulib_bundle_commit="03ea6c07ce04f0ba815243191688de4ba370e95a"
 pkgver=9.11
-pkgrel=3
+pkgrel=4
+_gnulib_commit="fb7312fa8d3df29f0ca0678f669b9a5b88a078ec"
 _pkgdesc=(
   'The basic file, shell and'
   'text manipulation utilities of the'
@@ -155,7 +158,7 @@ license=(
 )
 url="https://www.gnu.org/software/${_pkg}"
 depends=(
-  'glibc'
+  "${_libc}"
   'acl'
   'attr'
   'gmp'
@@ -163,10 +166,11 @@ depends=(
   'openssl'
 )
 makedepends=(
-  "make"
   "autoconf"
   "automake"
   "${_compiler}"
+  "${_libc}"
+  "make"
 )
 if [[ "${_git}" == "true" ]]; then
   makedepends+=(
@@ -193,12 +197,15 @@ elif [[ "${_tag_name}" == "commit" ]]; then
 fi
 _tarname="${_pkg}-${_tag}"
 _tarfile="${_tarname}.${_archive_format}"
+_gnulib_tarfile="gnulib-${_gnulib_commit}.${_archive_format}"
 _gnu_sum="394024eda0a5955217ceda9cd1201e65dc8fa3aa29c2951135a49521d57c3cc3"
 _gnu_sig_sum="e2b9f147338cb22e41be28dcf76cd87c5197be359cc42033e66488a4a6b5c024"
 _bundle_sum="d549e382c34ad260b86ba63faa184fecfceb1074f6785a6a7375567ed24b4c49"
 _bundle_sig_sum="995e7daaaa7b58941c7fa65ac0ba5c6df13392954508577b5bc02d9be71ab5ff"
 _github_sum="119a5ec9cb0cf5a79c2db387c911b4faa310de84f236f1e254a3b473897d30cf"
 _github_sig_sum="973d6b494e33772fdb3432c867c20a204d813efa5afc2c79901c955d6ad66acf"
+_gnulib_bundle_sum="693551301f6c1112d96888561c01a50c2cdd0a7aba47ba4be8d524b60ee5b006"
+_gnulib_bundle_sig_sum="21106b13862b7ce9c2e5f7f6d7916801a3f21317578d2224104080765a3b0949"
 if [[ ! -v "_http" ]]; then
   if [[ "${_ns}" == "gnu" ]]; then
     _http="https://ftp.gnu.org"
@@ -233,9 +240,14 @@ _evmfs_network="100"
 _evmfs_address="0x69470b18f8b8b5f92b48f6199dcb147b4be96571"
 _evmfs_dir="evmfs://${_evmfs_network}/${_evmfs_address}/${_evmfs_ns}"
 _evmfs_uri="${_evmfs_dir}/${_sum}"
+_gnulib_uri="${_evmfs_dir}/${_gnulib_bundle_sum}"
 _evmfs_src="${_tarfile}::${_evmfs_uri}"
+_gnulib_src="${_gnulib_tarfile}::${_gnulib_uri}"
 _sig_uri="${_evmfs_dir}/${_sig_sum}"
 _sig_src="${_tarfile}.sig::${_sig_uri}"
+_gnulib_sig_uri="${_evmfs_dir}/${_gnulib_bundle_sig_sum}"
+_gnulib_sig_src="${_gnulib_tarfile}.sig::${_gnulib_sig_uri}"
+_gnulib_uri=""
 _url="${_http}/${_ns}/${_pkg}"
 if [[ "${_evmfs}" == "true" ]]; then
   _src="${_evmfs_src}"
@@ -250,16 +262,28 @@ if [[ "${_evmfs}" == "true" ]]; then
   elif [[ "${_git}" == "true" ]]; then
     source+=(
       "${_sig_src}"
+      "${_gnulib_src}"
+      "${_gnulib_sig_src}"
     )
     sha256sums+=(
       "${_sig_sum}"
+      "${_gnulib_bundle_sum}"
+      "${_gnulib_bundle_sig_sum}"
     )
     _sum="${_bundle_sum}"
   fi
 elif [[ "${_evmfs}" == "false" ]]; then
   if [[ "${_git}" == true ]]; then
     _src="${_tarname}::git+${_url}#${_tag_name}=${_tag}?signed"
+    _gnulib_uri="${_http}/${_ns}/gnulib"
+    _gnulib_src="${_gnulib_tarfile}::git+${_gnulib_uri}#${_tag_name}=${_gnulib_commit}"
     _sum="SKIP"
+    source+=(
+      "${_gnulib_src}"
+    )
+    sha256sums+=(
+      'SKIP'
+    )
   elif [[ "${_git}" == false ]]; then
     _uri=""
     if [[ "${_ns}" == "gnu" ]]; then
