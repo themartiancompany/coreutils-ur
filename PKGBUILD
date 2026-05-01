@@ -419,6 +419,7 @@ build() {
       -o)"
   _autogen="${srcdir}/${_tarname}/autogen.sh"
   _configure="${srcdir}/${_tarname}/configure.sh"
+  _bootstrap="${srcdir}/${_tarname}/bootstrap"
   # Android sure require patches
   _cflags=(
     -Wno-implicit-function-declaration 
@@ -452,8 +453,7 @@ build() {
       "${_autogen}" \
         "${_configure_opts[@]}"
     else
-      autoreconf \
-        -i
+      "${_bootstrap}"
     fi
   fi
   "${_configure}" \
