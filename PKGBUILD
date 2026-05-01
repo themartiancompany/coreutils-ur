@@ -364,6 +364,8 @@ prepare() {
     elif [[ "${_git}" == "true" ]]; then
       _git_unbundle \
         "${_tarname}"
+      _git_unbundle \
+        "${_gnulib_tarname}"
     fi
   fi
   cd \
@@ -392,6 +394,15 @@ build() {
     _configure \
     _configure_opts=() \
     _os
+  if [[ ! -e "${srcdir}/${_tarname}/gnulib/"* ]]; then
+    rm \
+      -rf \
+      "${srcdir}/${_tarname}/gnulib"
+    cp \
+      -r \
+      "${srcdir}/${_gnulib_tarname}" \
+      "${srcdir}/${_tarname}/gnulib"
+  fi
   _os="$(
     uname \
       -o)"
