@@ -247,7 +247,7 @@ _sig_uri="${_evmfs_dir}/${_sig_sum}"
 _sig_src="${_tarfile}.sig::${_sig_uri}"
 _gnulib_sig_uri="${_evmfs_dir}/${_gnulib_bundle_sig_sum}"
 _gnulib_sig_src="${_gnulib_tarfile}.sig::${_gnulib_sig_uri}"
-_gnulib_uri=""
+_gnulib_url="${_http}/${_ns}/gnulib"
 _url="${_http}/${_ns}/${_pkg}"
 if [[ "${_evmfs}" == "true" ]]; then
   _src="${_evmfs_src}"
@@ -275,8 +275,7 @@ if [[ "${_evmfs}" == "true" ]]; then
 elif [[ "${_evmfs}" == "false" ]]; then
   if [[ "${_git}" == true ]]; then
     _src="${_tarname}::git+${_url}#${_tag_name}=${_tag}?signed"
-    _gnulib_uri="${_http}/${_ns}/gnulib"
-    _gnulib_src="${_gnulib_tarfile}::git+${_gnulib_uri}#${_tag_name}=${_gnulib_commit}"
+    _gnulib_src="${_gnulib_tarfile}::git+${_gnulib_url}#${_tag_name}=${_gnulib_commit}"
     _sum="SKIP"
     source+=(
       "${_gnulib_src}"
@@ -301,14 +300,23 @@ elif [[ "${_evmfs}" == "false" ]]; then
         if [[ "${_tag_name}" == "commit" ]]; then
           _uri="${_url}/archive/${_commit}.${_archive_format}"
           _sum="${_github_sum}"
+          _gnulib_uri="${_gnulib_url}/archive/${_gnulib_commit}.${_archive_format}"
+          _gnulib_src="${_gnulib_tarfile}::${_gitlab_uri}"
         fi
       elif [[ "${_git_service}" == "gitlab" ]]; then
         if [[ "${_tag_name}" == "commit" ]]; then
           _uri="${_url}/-/archive/${_tag}/${_tag}.${_archive_format}"
+          _gnulib_uri="${_gnulib_url}/-/archive/${_gnulib_commit}/${_gnulib_commit}.${_archive_format}"
         fi
       fi
     fi
     _src="${_tarfile}::${_uri}"
+    source+=(
+      "${_gnulib_src}"
+    )
+    source+=(
+      "${_gnulib_sum}"
+    )
   fi
 fi
 source+=(
