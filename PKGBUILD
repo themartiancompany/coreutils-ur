@@ -90,6 +90,13 @@ fi
 if [[ ! -v "_git" ]]; then
   _git="true"
 fi
+if [[ ! -v "_bootstrap" ]]; then
+  if [[ "${_git}" == "true" ]]; then
+    _bootstrap="true"
+  elif [[ "${_git}" == "false" ]]; then
+    _bootstrap="false"
+  fi
+fi
 if [[ ! -v "_offline" ]]; then
   _offline="false"
 fi
@@ -175,6 +182,12 @@ makedepends=(
 if [[ "${_git}" == "true" ]]; then
   makedepends+=(
     "git"
+  )
+fi
+if [[ "" == "true" ]]; then
+  makedepends+=(
+    "gperf"
+    "wget"
   )
 fi
 if [[ "${_evmfs}" == "true" ]]; then
@@ -402,6 +415,7 @@ build() {
   local \
     _cflags=() \
     _autogen \
+    _bootstrap_bin \
     _configure \
     _configure_opts=() \
     _os
@@ -419,7 +433,7 @@ build() {
       -o)"
   _autogen="${srcdir}/${_tarname}/autogen.sh"
   _configure="${srcdir}/${_tarname}/configure.sh"
-  _bootstrap="${srcdir}/${_tarname}/bootstrap"
+  _bootstrap_bin="${srcdir}/${_tarname}/bootstrap"
   # Android sure require patches
   _cflags=(
     -Wno-implicit-function-declaration 
@@ -453,7 +467,7 @@ build() {
       "${_autogen}" \
         "${_configure_opts[@]}"
     else
-      "${_bootstrap}"
+      "${_bootstrap_bin}"
     fi
   fi
   "${_configure}" \
