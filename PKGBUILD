@@ -330,9 +330,42 @@ validpgpkeys=(
   '12D8E3D7888F741E89F86EE0FEC8567A644F1D16'
 )
 
+_git_unbundle() {
+  local \
+    _tarname="${1}" \
+    _bundle \
+    _repo \
+    _msg=()
+  _bundle="${srcdir}/${_tarname}.bundle"
+  _repo="${srcdir}/${_tarname}"
+  _msg=(
+    "Cloning '${_bundle}' into '${_repo}'."
+  )
+  msg \
+    "${_msg[*]}"
+  git \
+    clone \
+      "${_bundle}" \
+      "${_repo}" || \
+  git \
+    -C \
+      "${_repo}" \
+      pull || \
+  true
+}
+
 prepare() {
   local \
     _src
+  if [[ "${_evmfs}" == "true" ]]; then
+    if [[ "${_git}" == "false" ]]; then
+      ur \
+        "never-gonna-give-you-up"
+    elif [[ "${_git}" == "true" ]]; then
+      _git_unbundle \
+        "${_tarname}"
+    fi
+  fi
   cd \
     "${_tarname}"
   # apply patch from the source array 
