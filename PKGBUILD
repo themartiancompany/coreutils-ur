@@ -133,7 +133,7 @@ _gnulib_commit="fb7312fa8d3df29f0ca0678f669b9a5b88a078ec"
 _bundle_commit="b60a159fdc5bfcf9988d3a4cb6f53abe8ad5d35d"
 _gnulib_bundle_commit="03ea6c07ce04f0ba815243191688de4ba370e95a"
 pkgver=9.11
-pkgrel=6
+pkgrel=7
 _gnulib_commit="fb7312fa8d3df29f0ca0678f669b9a5b88a078ec"
 _pkgdesc=(
   'The basic file, shell and'
@@ -197,7 +197,8 @@ elif [[ "${_tag_name}" == "commit" ]]; then
 fi
 _tarname="${_pkg}-${_tag}"
 _tarfile="${_tarname}.${_archive_format}"
-_gnulib_tarfile="gnulib-${_gnulib_commit}.${_archive_format}"
+_gnulib_tarname="gnulib-${_gnulib_commit}"
+_gnulib_tarfile="${_gnulib_tarname}.${_archive_format}"
 _gnu_sum="394024eda0a5955217ceda9cd1201e65dc8fa3aa29c2951135a49521d57c3cc3"
 _gnu_sig_sum="e2b9f147338cb22e41be28dcf76cd87c5197be359cc42033e66488a4a6b5c024"
 _bundle_sum="d549e382c34ad260b86ba63faa184fecfceb1074f6785a6a7375567ed24b4c49"
