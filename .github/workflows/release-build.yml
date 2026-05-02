@@ -125,15 +125,6 @@ jobs:
             "${PREFIX}/etc/termux/mirrors/default" \
             "${PREFIX}/etc/termux/chosen_mirrors"
       - name:
-          Increase pidmax in the container.
-        run:
-          /entrypoint.sh \
-            login \
-              -c \
-                "bash -c 'echo 65535 | tee /proc/sys/kernel/pid_max'"; \
-          cat \
-            "/proc/sys/kernel/pid_max"
-      - name:
           Upgrade Termux debian environment.
         run: |
           /entrypoint.sh \
@@ -153,6 +144,15 @@ jobs:
             -R \
             "o+x" \
             "${PREFIX}/bin"
+      - name:
+          Increase pidmax in the container.
+        run:
+          /entrypoint.sh \
+            login \
+              -c \
+                "bash -c 'echo 65535 | tee /proc/sys/kernel/pid_max'"; \
+          cat \
+            "/proc/sys/kernel/pid_max"
       - name:
           Installs bionic-libc NodeJS to force compatibility with actions/checkout and actions/upload-artifact.
         run: |
