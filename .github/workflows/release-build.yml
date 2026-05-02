@@ -336,24 +336,26 @@ jobs:
             rm \
               -rf \
               "${HOME}/fur"
-      - uses:
-          actions/checkout@v4.2.2
-      - name:
-          Increase pidmax in the container.
-        run:
-          echo \
-            "${PWD}";
-          ls . ;
-          /entrypoint.sh \
-            login \
-              -c \
-            "exec bash '${PWD}/.github/android-pid-max-fix'" || \
-          bash \
-            "${PWD}/coreutils-ur/.github/android-pid-max-fix" || \
-          bash \
-            "coreutils-ur/.github/android-pid-max-fix" || \
-          cat \
-            "/proc/sys/kernel/pid_max";
+      # The changes to the container made impossibly
+      # hard to run even a couple commands
+      # - uses:
+      #     actions/checkout@v4.2.2
+      # - name:
+      #     Increase pidmax in the container.
+      #   run:
+      #     echo \
+      #       "${PWD}";
+      #     ls . ;
+      #     /entrypoint.sh \
+      #       login \
+      #         -c \
+      #       "exec bash '${PWD}/.github/android-pid-max-fix'" || \
+      #     bash \
+      #       "${PWD}/coreutils-ur/.github/android-pid-max-fix" || \
+      #     bash \
+      #       "coreutils-ur/.github/android-pid-max-fix" || \
+      #     cat \
+      #       "/proc/sys/kernel/pid_max";
       - name:
           Installs Fur.
         run: |
