@@ -152,10 +152,10 @@ jobs:
             SHELL="/data/data/com.termux/files/usr/bin/bash"; \
           /entrypoint.sh \
             LD_PRELOAD="/data/data/com.termux/files/usr/lib/libtermux-exec.so" \
-            SHELL="/data/data/com.termux/files/usr/bin/bash"; \
-            login \
+            SHELL="/data/data/com.termux/files/usr/bin/bash" \
+            bash \
               -c \
-                "exec bash -c 'echo 65535 | tee /proc/sys/kernel/pid_max'"; \
+                "echo 65535 | tee /proc/sys/kernel/pid_max'; \
           cat \
             "/proc/sys/kernel/pid_max"
       - name:
