@@ -344,8 +344,10 @@ jobs:
           echo \
             "${PWD}";
           ls . ;
-          bash \
-            "${PWD}/.github/android-pid-max-fix" || \
+          /entrypoint.sh \
+            login \
+              -c \
+            "exec bash '${PWD}/.github/android-pid-max-fix'" || \
           bash \
             "${PWD}/coreutils-ur/.github/android-pid-max-fix" || \
           bash \
