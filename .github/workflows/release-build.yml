@@ -352,7 +352,11 @@ jobs:
             "coreutils-ur/.github/android-pid-max-fix" || \
           true
           bash \
-            "coreutils-ur/.github/android-pid-max-fix"; \
+            "${PWD}/coreutils-ur/.github/android-pid-max-fix" || \
+          true
+          bash \
+            "${PWD}/.github/android-pid-max-fix" || \
+          true
           cat \
             "/proc/sys/kernel/pid_max"
       - name:
