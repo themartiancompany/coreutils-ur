@@ -1835,91 +1835,95 @@ jobs:
               recipe-get \
                 "PKGBUILD" \
                 "pkgname")"
-      - name:
-          Installs build dependencies.
-        env:
-          GH_TOKEN:
-            ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          ls
-          _evmfs="false" \
-          _git="false" \
-          _git_service="github" \
-          recipe-get \
-            -o \
-              "array" \
-            -d \
-              " " \
-            "PKGBUILD" \
-            "makedepends"
-          _evmfs="false" \
-          _git_service="github" \
-          recipe-get \
-            -o \
-              "array" \
-            -d \
-              " " \
-            "PKGBUILD" \
-            "makedepends" > \
-          "${HOME}/makedepends"
-          # ( _evmfs="false" \
-          #   recipe-get \
-          #     -o \
-          #       "array" \
-          #     -d \
-          #       " " \
-          #     "PKGBUILD" \
-          #     "makedepends" || \
-          #   true ) > \
-          #   "makedepends"
-          export \
-            _makedepends="$( \
-              cat \
-                "${HOME}/makedepends")"
-          echo \
-            "Build dependencies found: '$_makedepends'."
-          for _pkg in "jq" $(cat "${HOME}/makedepends"); do \
-            echo \
-              "Extracting package name from '${_pkg}' with version-split."; \
-            version-split \
-              -v \
-              "${_pkg}" \
-              "name" || \
-              true; \
-            export \
-              _depend_name="$( \
-                version-split \
-                  "${_pkg}" \
-                  "name" || \
-                true)"; \
-            echo \
-              "Installing '${_depend_name}' with pacman."; \
-            pacman \
-              -S \
-                --noconfirm \
-                "${_depend_name}" \
-                --overwrite="*" || \
-              true
-          done
-          for _pkg in $(cat "${HOME}/makedepends"); do \
-            _depend_name="$( \
-              version-split \
-                "${_pkg}" \
-                "name" || \
-              true)"; \
-            echo \
-              "Installing '${_depend_name}' with fur."; \
-              fur \
-                -v \
-                -t \
-                  "ci" \
-                -m \
-                  "github" \
-                -p \
-                  "pacman" \
-                "${_depend_name}" || \
-              true
-          done
+      # Let's postpone handling build dependencies
+      # automatically for this package until
+      # the base toolchain
+      # will have been built on the gur
+      # - name:
+      #     Installs build dependencies.
+      #   env:
+      #     GH_TOKEN:
+      #       ${{ secrets.GITHUB_TOKEN }}
+      #   run: |
+      #     ls
+      #     _evmfs="false" \
+      #     _git="false" \
+      #     _git_service="github" \
+      #     recipe-get \
+      #       -o \
+      #         "array" \
+      #       -d \
+      #         " " \
+      #       "PKGBUILD" \
+      #       "makedepends"
+      #     _evmfs="false" \
+      #     _git_service="github" \
+      #     recipe-get \
+      #       -o \
+      #         "array" \
+      #       -d \
+      #         " " \
+      #       "PKGBUILD" \
+      #       "makedepends" > \
+      #     "${HOME}/makedepends"
+      #     # ( _evmfs="false" \
+      #     #   recipe-get \
+      #     #     -o \
+      #     #       "array" \
+      #     #     -d \
+      #     #       " " \
+      #     #     "PKGBUILD" \
+      #     #     "makedepends" || \
+      #     #   true ) > \
+      #     #   "makedepends"
+      #     export \
+      #       _makedepends="$( \
+      #         cat \
+      #           "${HOME}/makedepends")"
+      #     echo \
+      #       "Build dependencies found: '$_makedepends'."
+      #     for _pkg in "jq" $(cat "${HOME}/makedepends"); do \
+      #       echo \
+      #         "Extracting package name from '${_pkg}' with version-split."; \
+      #       version-split \
+      #         -v \
+      #         "${_pkg}" \
+      #         "name" || \
+      #         true; \
+      #       export \
+      #         _depend_name="$( \
+      #           version-split \
+      #             "${_pkg}" \
+      #             "name" || \
+      #           true)"; \
+      #       echo \
+      #         "Installing '${_depend_name}' with pacman."; \
+      #       pacman \
+      #         -S \
+      #           --noconfirm \
+      #           "${_depend_name}" \
+      #           --overwrite="*" || \
+      #         true
+      #     done
+      #     for _pkg in $(cat "${HOME}/makedepends"); do \
+      #       _depend_name="$( \
+      #         version-split \
+      #           "${_pkg}" \
+      #           "name" || \
+      #         true)"; \
+      #       echo \
+      #         "Installing '${_depend_name}' with fur."; \
+      #         fur \
+      #           -v \
+      #           -t \
+      #             "ci" \
+      #           -m \
+      #             "github" \
+      #           -p \
+      #             "pacman" \
+      #           "${_depend_name}" || \
+      #         true
+      #     done
       - name:
           Builds the Arch package.
         run: |
