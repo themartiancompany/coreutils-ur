@@ -140,7 +140,7 @@ _gnulib_commit="fb7312fa8d3df29f0ca0678f669b9a5b88a078ec"
 _bundle_commit="b60a159fdc5bfcf9988d3a4cb6f53abe8ad5d35d"
 _gnulib_bundle_commit="03ea6c07ce04f0ba815243191688de4ba370e95a"
 pkgver=9.11
-pkgrel=66
+pkgrel=67
 _gnulib_commit="fb7312fa8d3df29f0ca0678f669b9a5b88a078ec"
 _pkgdesc=(
   'The basic file, shell and'
@@ -382,7 +382,18 @@ _git_unbundle() {
 
 prepare() {
   local \
+    _configure \
+    _os \
     _src
+    _date_msg=()
+  _date_msg=(
+    '/* Set the system clock to the'
+    'specified date, then regardless of'
+  )
+  _configure="${srcdir}/${_tarname}/configure"
+  _os="$(
+    uname \
+      -o)"
   if [[ "${_evmfs}" == "true" ]]; then
     if [[ "${_git}" == "false" ]]; then
       ur \
@@ -409,6 +420,24 @@ prepare() {
       -Np1 < \
         "../${_src}"
   done
+  if [[ "${_os}" == "Android" ]]; then
+    if [[ -e "${_configure}" ]]; then
+      sed \
+        -e \
+          "/ac_list_mounted_fs=/ac_list_mounted_fs=found/g" \
+        -i \
+        "${_configure}"
+    fi
+    sed \
+      -e \
+        "%${_date_msg[*]}%i \
+          if (getuid() != 0)
+            {
+              error (EXIT_FAILURE, 0, \"only root user can change date/time\");
+            }" \
+      -i \
+      "${srcdir}/${_tarname}/src/date.c"
+  fi
 }
 
 build() {
@@ -480,6 +509,13 @@ build() {
     else
       "${_bootstrap_bin}" \
         "${_bootstrap_opts[@]}"
+    fi
+    if [[ "${_os}" == "Android" ]]; then
+      sed \
+        -e \
+          "/ac_list_mounted_fs=/ac_list_mounted_fs=found/g" \
+        -i \
+        "${_configure}"
     fi
   fi
   "${_configure}" \
