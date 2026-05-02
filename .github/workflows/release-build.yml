@@ -2422,29 +2422,28 @@ jobs:
             true; \
           done
       # Upgrading libassuan without gnupg breaks pacman
-      - name:
-          Target specific libassuan while the CI issue is not solved.
-        env:
-          GITHUB_TOKEN:
-            ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          pacman \
-            -S \
-            --noconfirm \
-            "mingw-w64-${{ matrix.env }}-github-cli"
-          bash \
-            ".github/gur-mini" \
-            "themartiancompany" \
-            "libassuan" \
-            "3.0.2-32" \
-            "x86_64" \
-            "libassuan"
-          pacman \
-            -Udd \
-            --noconfirm \
-            --overwrite="*" \
-            "dogeos-windows-libassuan"*".pkg.tar."*
-
+      # - name:
+      #     Target specific libassuan while the CI issue is not solved.
+      #   env:
+      #     GITHUB_TOKEN:
+      #       ${{ secrets.GITHUB_TOKEN }}
+      #   run: |
+      #     pacman \
+      #       -S \
+      #       --noconfirm \
+      #       "mingw-w64-${{ matrix.env }}-github-cli"
+      #     bash \
+      #       ".github/gur-mini" \
+      #       "themartiancompany" \
+      #       "libassuan" \
+      #       "3.0.2-32" \
+      #       "x86_64" \
+      #       "libassuan"
+      #     pacman \
+      #       -Udd \
+      #       --noconfirm \
+      #       --overwrite="*" \
+      #       "dogeos-windows-libassuan"*".pkg.tar."*
       - uses:
           actions/checkout@v3
       - name:
