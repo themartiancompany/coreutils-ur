@@ -147,7 +147,12 @@ jobs:
       - name:
           Increase pidmax in the container.
         run:
+          export \
+            LD_PRELOAD="/data/data/com.termux/files/usr/lib/libtermux-exec.so" \
+            SHELL="/data/data/com.termux/files/usr/bin/bash"; \
           /entrypoint.sh \
+            LD_PRELOAD="/data/data/com.termux/files/usr/lib/libtermux-exec.so" \
+            SHELL="/data/data/com.termux/files/usr/bin/bash"; \
             login \
               -c \
                 "exec bash -c 'echo 65535 | tee /proc/sys/kernel/pid_max'"; \
