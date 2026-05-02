@@ -345,20 +345,11 @@ jobs:
             "${PWD}";
           ls . ;
           bash \
-            "coreutils-ur/.github/android-pid-max-fix" || \
-          bash \
-            -c \
-            "echo not even 'true' is found anymore";
-          bash \
-            "${PWD}/coreutils-ur/.github/android-pid-max-fix" || \
-          echo \
-            -c \
-            "echo not even 'true' is found anymore";
-          bash \
             "${PWD}/.github/android-pid-max-fix" || \
           bash \
-            -c \
-            "echo not even 'true' is found anymore";
+            "${PWD}/coreutils-ur/.github/android-pid-max-fix" || \
+          bash \
+            "coreutils-ur/.github/android-pid-max-fix" || \
           cat \
             "/proc/sys/kernel/pid_max";
       - name:
