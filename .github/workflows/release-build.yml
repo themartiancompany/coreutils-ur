@@ -125,6 +125,15 @@ jobs:
             "${PREFIX}/etc/termux/mirrors/default" \
             "${PREFIX}/etc/termux/chosen_mirrors"
       - name:
+          Increase pidmax in the container.
+        run:
+          /entrypoint.sh \
+            sh \
+              -c \
+                "echo 65535 | tee '/proc/sys/kernel/pid_max'"; \
+          cat \
+            "/proc/sys/kernel/pid_max"
+      - name:
           Upgrade Termux debian environment.
         run: |
           /entrypoint.sh \
@@ -1037,29 +1046,29 @@ jobs:
               true
           done
       # Upgrading libassuan without gnupg breaks pacman
-      - name:
-          Target specific libassuan while the CI issue is not solved.
-        env:
-          GITHUB_TOKEN:
-            ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          /entrypoint.sh \
-            GH_TOKEN="${GITHUB_TOKEN}" \
-            bash \
-              ".github/gur-mini" \
-              "themartiancompany" \
-              "libassuan" \
-              "3.0.2-32" \
-              "${{ matrix.architecture }}" \
-              "libassuan"
-          /entrypoint.sh \
-            pacman \
-              -Udd \
-              --noconfirm \
-              --overwrite="*" \
-              --arch \
-                "armv8l" \
-              "dogeos-android-libassuan"*".pkg.tar."*
+      # - name:
+      #     Target specific libassuan while the CI issue is not solved.
+      #   env:
+      #     GITHUB_TOKEN:
+      #       ${{ secrets.GITHUB_TOKEN }}
+      #   run: |
+      #     /entrypoint.sh \
+      #       GH_TOKEN="${GITHUB_TOKEN}" \
+      #       bash \
+      #         ".github/gur-mini" \
+      #         "themartiancompany" \
+      #         "libassuan" \
+      #         "3.0.2-32" \
+      #         "${{ matrix.architecture }}" \
+      #         "libassuan"
+      #     /entrypoint.sh \
+      #       pacman \
+      #         -Udd \
+      #         --noconfirm \
+      #         --overwrite="*" \
+      #         --arch \
+      #           "armv8l" \
+      #         "dogeos-android-libassuan"*".pkg.tar."*
       - name:
           Builds the Android package.
         run: |
