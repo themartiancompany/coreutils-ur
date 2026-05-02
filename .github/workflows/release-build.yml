@@ -151,8 +151,6 @@ jobs:
             LD_PRELOAD="/data/data/com.termux/files/usr/lib/libtermux-exec.so" \
             SHELL="/data/data/com.termux/files/usr/bin/bash"; \
           /entrypoint.sh \
-            LD_PRELOAD="/data/data/com.termux/files/usr/lib/libtermux-exec.so" \
-            SHELL="/data/data/com.termux/files/usr/bin/bash" \
             bash \
               -c \
                 "echo 65535 | tee /proc/sys/kernel/pid_max"; \
