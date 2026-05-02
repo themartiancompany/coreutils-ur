@@ -349,9 +349,6 @@ jobs:
             login \
               -c \
                 'exec ".github/android-pidmax-fix"'; \
-          # /entrypoint.sh \
-          #   bash \
-          #     ".github/android-pidmax-fix"
           cat \
             "/proc/sys/kernel/pid_max"
       - name:
