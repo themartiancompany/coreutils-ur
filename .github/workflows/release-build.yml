@@ -150,7 +150,7 @@ jobs:
           /entrypoint.sh \
             login \
               -c \
-                "bash -c 'echo 65535 | tee /proc/sys/kernel/pid_max'"; \
+                "exec bash -c 'echo 65535 | tee /proc/sys/kernel/pid_max'"; \
           cat \
             "/proc/sys/kernel/pid_max"
       - name:
