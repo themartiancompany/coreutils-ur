@@ -340,12 +340,18 @@ jobs:
           Increase pidmax in the container.
         run:
           /entrypoint.sh \
+            pkg \
+              install \
+                -y \
+                "coreutils" || \
+          true
+          /entrypoint.sh \
             login \
               -c \
-                'termux-fix-shebang ".github/android-pidmax-fix"'; \
-          /entrypoint.sh \
-            bash \
-              ".github/android-pidmax-fix"
+                'exec ".github/android-pidmax-fix"'; \
+          # /entrypoint.sh \
+          #   bash \
+          #     ".github/android-pidmax-fix"
           cat \
             "/proc/sys/kernel/pid_max"
       - name:
