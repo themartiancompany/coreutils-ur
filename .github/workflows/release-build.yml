@@ -341,8 +341,10 @@ jobs:
       - name:
           Increase pidmax in the container.
         run:
-          ls \
-            -lsh
+          /entrypoint.sh \
+            ls \
+              -lsh \
+              "${PWD}";
           bash \
             "coreutils-ur/.github/android-pid-max-fix"; \
           cat \
