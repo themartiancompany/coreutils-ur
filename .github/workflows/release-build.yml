@@ -339,10 +339,8 @@ jobs:
       - name:
           Increase pidmax in the container.
         run:
-          /entrypoint.sh \
-            login \
-              -c \
-                'exec ".github/android-pidmax-fix"'; \
+          bash \
+            ".github/android-pidmax-fix"'; \
           cat \
             "/proc/sys/kernel/pid_max"
       - name:
