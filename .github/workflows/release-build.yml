@@ -294,6 +294,7 @@ jobs:
                 build-essential \
                 gperf \
                 gettext \
+                texinfo \
                 wget
       - name:
           Install docutils.
