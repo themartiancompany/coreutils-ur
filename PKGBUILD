@@ -123,7 +123,7 @@ if [[ ! -v "_archive_format" ]]; then
       _archive_format="tar.xz"
     elif [[ "${_ns}" == "themartiancompany" ]]; then
       if [[ "${_git_service}" == "github" ]]; then
-        _archive_format="zip"
+        _archive_format="tar.gz"
       elif [[ "${_git_service}" == "gitlab" ]]; then
         _archive_format="tar.gz"
       fi
@@ -140,7 +140,7 @@ _gnulib_commit="fb7312fa8d3df29f0ca0678f669b9a5b88a078ec"
 _bundle_commit="b60a159fdc5bfcf9988d3a4cb6f53abe8ad5d35d"
 _gnulib_bundle_commit="03ea6c07ce04f0ba815243191688de4ba370e95a"
 pkgver=9.11
-pkgrel=57
+pkgrel=59
 _gnulib_commit="fb7312fa8d3df29f0ca0678f669b9a5b88a078ec"
 _pkgdesc=(
   'The basic file, shell and'
@@ -220,8 +220,8 @@ _github_sum="119a5ec9cb0cf5a79c2db387c911b4faa310de84f236f1e254a3b473897d30cf"
 _github_sig_sum="973d6b494e33772fdb3432c867c20a204d813efa5afc2c79901c955d6ad66acf"
 _gnulib_bundle_sum="693551301f6c1112d96888561c01a50c2cdd0a7aba47ba4be8d524b60ee5b006"
 _gnulib_bundle_sig_sum="21106b13862b7ce9c2e5f7f6d7916801a3f21317578d2224104080765a3b0949"
-_gnulib_github_sum="013a647c32b91bdcdce15d2fcdbccc89b43531b6760a83176f9fcec46dc4a16e"
-_gnulib_github_sig_sum="2f6a8b306b6c5967034a98c61a7854487595d13d7e28ebcd756592c70b9ee561"
+_gnulib_github_sum="b9c7e9d53899439018c8af726222d9d0208ea7771d0706501a282732dc99d74b"
+_gnulib_github_sig_sum="a71a196d6fd94598683c4e623c545e7bdef37c3bc0482f5974d4539731572f9e"
 if [[ ! -v "_http" ]]; then
   if [[ "${_ns}" == "gnu" ]]; then
     _http="https://ftp.gnu.org"
