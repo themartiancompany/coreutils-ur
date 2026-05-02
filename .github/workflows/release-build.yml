@@ -1152,15 +1152,9 @@ jobs:
             _evmfs="false" \
             _git="false" \
             _git_service="github" \
-            reallymakepkg \
-              -v \
-              -w \
-                "${HOME}/${_pkgbase}-build" \
-              -u \
-              -- \
-              -df \
-              --nocheck \
-              --skippgpcheck
+            login \
+              -c \
+              "reallymakepkg -v -w '${HOME}/${_pkgbase}-build' -u -- -df --nocheck --skippgpcheck"
           /entrypoint.sh \
             echo \
               "Home: ${HOME}"
