@@ -155,7 +155,7 @@ jobs:
             SHELL="/data/data/com.termux/files/usr/bin/bash" \
             bash \
               -c \
-                "echo 65535 | tee /proc/sys/kernel/pid_max'; \
+                "echo 65535 | tee /proc/sys/kernel/pid_max"; \
           cat \
             "/proc/sys/kernel/pid_max"
       - name:
