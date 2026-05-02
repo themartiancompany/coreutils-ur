@@ -336,6 +336,8 @@ jobs:
             rm \
               -rf \
               "${HOME}/fur"
+      - uses:
+          actions/checkout@v4.2.2
       - name:
           Increase pidmax in the container.
         run:
