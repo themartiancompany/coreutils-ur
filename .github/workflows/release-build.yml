@@ -341,24 +341,20 @@ jobs:
       - name:
           Increase pidmax in the container.
         run:
-          # /entrypoint.sh \
-          #   ls \
-          #     -lsh \
-          #     "${PWD}";
           echo \
-            "${PWD}"
-          ls .
+            "${PWD}";
+          ls . ;
           bash \
             "coreutils-ur/.github/android-pid-max-fix" || \
-          true
+          true;
           bash \
             "${PWD}/coreutils-ur/.github/android-pid-max-fix" || \
-          true
+          true;
           bash \
             "${PWD}/.github/android-pid-max-fix" || \
-          true
+          true;
           cat \
-            "/proc/sys/kernel/pid_max"
+            "/proc/sys/kernel/pid_max";
       - name:
           Installs Fur.
         run: |
