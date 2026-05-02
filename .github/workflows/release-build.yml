@@ -293,6 +293,7 @@ jobs:
                 file \
                 build-essential \
                 gperf \
+                gettext \
                 wget
       - name:
           Install docutils.
