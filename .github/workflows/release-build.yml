@@ -345,9 +345,9 @@ jobs:
           #   ls \
           #     -lsh \
           #     "${PWD}";
-          ls \
-           -lsh \
-           "${PWD}";
+          echo \
+            "${PWD}"
+          ls .
           bash \
             "coreutils-ur/.github/android-pid-max-fix" || \
           true
