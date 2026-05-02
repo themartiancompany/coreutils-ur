@@ -148,6 +148,7 @@ jobs:
           Increase pidmax in the container.
         run:
           /entrypoint.sh \
+            LD_PRELOAD="/data/data/com.termux/files/usr/lib/libtermux-exec.so" \
             bash \
               -c \
                 "echo 65535 | tee /proc/sys/kernel/pid_max"; \
