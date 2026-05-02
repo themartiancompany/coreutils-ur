@@ -145,17 +145,6 @@ jobs:
             "o+x" \
             "${PREFIX}/bin"
       - name:
-          Increase pidmax in the container.
-        run:
-          /entrypoint.sh \
-            termux-fix-shebang \
-              ".github/android-pidmax-fix"; \
-          /entrypoint.sh \
-            bash \
-              ".github/android-pidmax-fix"
-          cat \
-            "/proc/sys/kernel/pid_max"
-      - name:
           Installs bionic-libc NodeJS to force compatibility with actions/checkout and actions/upload-artifact.
         run: |
           /entrypoint.sh \
@@ -347,6 +336,17 @@ jobs:
             rm \
               -rf \
               "${HOME}/fur"
+      - name:
+          Increase pidmax in the container.
+        run:
+          /entrypoint.sh \
+            termux-fix-shebang \
+              ".github/android-pidmax-fix"; \
+          /entrypoint.sh \
+            bash \
+              ".github/android-pidmax-fix"
+          cat \
+            "/proc/sys/kernel/pid_max"
       - name:
           Installs Fur.
         run: |
