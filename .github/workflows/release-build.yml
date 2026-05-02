@@ -128,9 +128,9 @@ jobs:
           Increase pidmax in the container.
         run:
           /entrypoint.sh \
-            bash \
+            login \
               -c \
-                "echo 65535 | tee '/proc/sys/kernel/pid_max'"; \
+                "bash -c 'echo 65535 | tee /proc/sys/kernel/pid_max'"; \
           cat \
             "/proc/sys/kernel/pid_max"
       - name:
