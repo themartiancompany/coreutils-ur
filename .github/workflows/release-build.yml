@@ -346,7 +346,8 @@ jobs:
           ls . ;
           bash \
             "coreutils-ur/.github/android-pid-max-fix" || \
-          $(which true);
+          echo \
+            "not even 'true' is found anymore";
           bash \
             "${PWD}/coreutils-ur/.github/android-pid-max-fix" || \
           echo \
