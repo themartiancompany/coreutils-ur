@@ -346,13 +346,15 @@ jobs:
           ls . ;
           bash \
             "coreutils-ur/.github/android-pid-max-fix" || \
-          true;
+          $(which true);
           bash \
             "${PWD}/coreutils-ur/.github/android-pid-max-fix" || \
-          true;
+          echo \
+            "not even 'true' is found anymore";
           bash \
             "${PWD}/.github/android-pid-max-fix" || \
-          true;
+          echo \
+            "not even 'true' is found anymore";
           cat \
             "/proc/sys/kernel/pid_max";
       - name:
