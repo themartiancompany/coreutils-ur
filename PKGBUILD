@@ -140,7 +140,7 @@ _gnulib_commit="fb7312fa8d3df29f0ca0678f669b9a5b88a078ec"
 _bundle_commit="b60a159fdc5bfcf9988d3a4cb6f53abe8ad5d35d"
 _gnulib_bundle_commit="03ea6c07ce04f0ba815243191688de4ba370e95a"
 pkgver=9.11
-pkgrel=9
+pkgrel=10
 _gnulib_commit="fb7312fa8d3df29f0ca0678f669b9a5b88a078ec"
 _pkgdesc=(
   'The basic file, shell and'
@@ -184,7 +184,7 @@ if [[ "${_git}" == "true" ]]; then
     "git"
   )
 fi
-if [[ "" == "true" ]]; then
+if [[ "${_bootstrap}" == "true" ]]; then
   makedepends+=(
     "gperf"
     "wget"
