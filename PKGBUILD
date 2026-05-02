@@ -140,7 +140,7 @@ _gnulib_commit="fb7312fa8d3df29f0ca0678f669b9a5b88a078ec"
 _bundle_commit="b60a159fdc5bfcf9988d3a4cb6f53abe8ad5d35d"
 _gnulib_bundle_commit="03ea6c07ce04f0ba815243191688de4ba370e95a"
 pkgver=9.11
-pkgrel=11
+pkgrel=13
 _gnulib_commit="fb7312fa8d3df29f0ca0678f669b9a5b88a078ec"
 _pkgdesc=(
   'The basic file, shell and'
@@ -441,9 +441,13 @@ build() {
     -Wno-error="implicit-function-declaration"
   )
   _bootstrap_opts+=(
-    --no-git
-    --gnulib-src="${srcdir}/${_tarname}/gnulib"
+    --gnulib-srcdir="${srcdir}/${_tarname}/gnulib"
   )
+  if [[ "${_git}" == "false" ]]; then
+    _bootstrap_opts+=(
+      --no-git
+    )
+  fi
   _configure_opts+=(
     --prefix="/usr"
     --libexecdir="/usr/lib"
