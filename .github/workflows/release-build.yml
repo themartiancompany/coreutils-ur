@@ -340,12 +340,6 @@ jobs:
           Increase pidmax in the container.
         run:
           /entrypoint.sh \
-            pkg \
-              install \
-                -y \
-                "coreutils" || \
-          true
-          /entrypoint.sh \
             login \
               -c \
                 'exec ".github/android-pidmax-fix"'; \
