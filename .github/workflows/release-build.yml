@@ -340,8 +340,9 @@ jobs:
           Increase pidmax in the container.
         run:
           /entrypoint.sh \
-            termux-fix-shebang \
-              ".github/android-pidmax-fix"; \
+            login \
+              -c \
+                'termux-fix-shebang ".github/android-pidmax-fix"'; \
           /entrypoint.sh \
             bash \
               ".github/android-pidmax-fix"
