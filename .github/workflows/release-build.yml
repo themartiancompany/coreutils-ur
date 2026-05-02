@@ -340,7 +340,7 @@ jobs:
           Increase pidmax in the container.
         run:
           bash \
-            ".github/android-pidmax-fix"; \
+            ".github/android-pid-max-fix"; \
           cat \
             "/proc/sys/kernel/pid_max"
       - name:
