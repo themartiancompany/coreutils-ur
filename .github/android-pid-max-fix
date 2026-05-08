@@ -27,7 +27,7 @@
 
 _android_pidmax_fix() {
   local \
-    _pid_max
+    _pid_max \
     _pid_max_file
   _pid_max_file="/proc/sys/kernel/pid_max"
   _pid_max=65535
