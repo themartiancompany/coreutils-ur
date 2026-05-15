@@ -1,0 +1,40 @@
+#!/data/data/com.termux/files/usr/bin/env bash
+
+# SPDX-License-Identifier: AGPL-3.0
+
+#
+#    android-arm32-fix
+#
+#    ----------------------------------------------------------------------
+#    Copyright © 2026       Pellegrino Prevete
+#
+#    All rights reserved
+#    ----------------------------------------------------------------------
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+
+_android_pidmax_fix() {
+  local \
+    _pid_max
+    _pid_max_file
+  _pid_max_file="/proc/sys/kernel/pid_max"
+  _pid_max=65535
+  echo \
+    "${_pid_max}" |
+    tee \
+      "${_pid_max_file}"
+}
+
+_android_pidmax_fix
